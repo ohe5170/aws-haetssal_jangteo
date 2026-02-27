@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.haetssal_jangteo.mapper.AdminHomeMapper">
+    <select id="selectUserAll" resultType="userDTO">
+        select id, user_email, user_password, user_phone, user_type, user_name,
+        user_intro, user_visit_count, user_latest_login, user_state,
+        created_datetime, updated_datetime
+        from tbl_user
+        order by id desc
+        limit 3
+    </select>
+
+    <select id="selectStoreAll" resultType="storeDTO">
+        select id, store_market_id, store_owner_id, store_name,
+        store_intro, store_address, store_score, store_state, store_is_confirmed,
+        created_datetime, updated_datetime
+        from tbl_store
+        order by id desc
+        limit 3
+    </select>
+
+    <select id="selectItemAll" resultType="itemDTO">
+        select i.id, i.item_store_id, i.item_category_id, i.item_name, i.item_type,
+        i.item_stock, i.item_price, i.item_delivery_fee, i.item_content,
+        i.item_state, i.item_view_count, i.created_datetime, i.updated_datetime,
+        c.category_name
+        from tbl_item i
+        left join tbl_category c on i.item_category_id = c.id
+        order by i.id desc
+        limit 3
+    </select>
+
+    <select id="selectTodaySalesCount" resultType="int">
+        select count(*)
+        from tbl_payment
+        where payment_state = 'COMPLETED'
+    </select>
+
+    <select id="selectTotalUserCount" resultType="int">
+        select count(*)
+        from tbl_user
+    </select>
+
+    <select id="selectTodayReportCount" resultType="int">
+        select count(*)
+        from tbl_report
+    </select>
+</mapper>

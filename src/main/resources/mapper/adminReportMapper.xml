@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.haetssal_jangteo.mapper.AdminReportMapper">
+
+    <sql id="search">
+        <trim prefix="(" prefixOverrides="and" suffix=")">
+            <if test="search.keyword != null and search.keyword != ''">
+                and r.id = #{search.keyword}
+            </if>
+            <if test="search.type != null and search.type != ''">
+                and r.report_type = #{search.type}
+            </if>
+        </trim>
+    </sql>
+
+
+    <select id="selectAll" resultType="ReportDTO">
+        select r.id, r.report_type, r.report_reporter_id,
+               r.created_datetime,
+               u.user_name, u.user_email
+        from tbl_report r
+        left join tbl_user u on r.report_reporter_id = u.id
+        <where>
+            <include refid="search"/>
+        </where>
+        order by r.id desc
+        limit #{criteria.count} offset #{criteria.offset}
+    </select>
+
+
+    <select id="selectTotal" resultType="int">
+        select count(*)
+        from tbl_report r
+        <where>
+            <include refid="search"/>
+        </where>
+    </select>
+
+
+    <select id="selectItemReportById" resultType="ReportItemDTO">
+        select ri.report_id, ri.item_id,
+               ri.report_reason, ri.report_content,
+               i.item_name, s.store_name
+        from tbl_report_item ri
+        left join tbl_item i on ri.item_id = i.id
+        left join tbl_store s on i.item_store_id = s.id
+        where ri.report_id = #{reportId}
+    </select>
+
+
+    <select id="selectUserReportById" resultType="ReportUserDTO">
+        select ru.report_id, ru.user_id ,
+               ru.report_reason, ru.report_content,
+               u.user_name, u.user_email
+        from tbl_report_user ru
+        left join tbl_user u on ru.user_id = u.id
+        where ru.report_id = #{reportId}
+    </select>
+
+
+    <select id="selectMarketReportById" resultType="ReportMarketDTO">
+        select rm.report_id, rm.market_id,
+               rm.report_state,
+               m.market_name, m.market_region
+        from tbl_report_market rm
+        left join tbl_market m on rm.market_id = m.id
+        where rm.report_id = #{reportId}
+    </select>
+
+
+    <select id="selectSellerReportById" resultType="ReportSellerDTO">
+        select rs.report_id, rs.seller_id,
+               rs.report_state,
+               s.seller_name, s.seller_email
+        from tbl_report_seller rs
+        left join tbl_seller s on rs.seller_id = s.id
+        where rs.report_id = #{reportId}
+    </select>
+
+    <update id="updateReportState">
+        update tbl_report
+        set report_type = #{state}
+        where id = #{reportId}
+    </update>
+
+</mapper>
