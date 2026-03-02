@@ -1,0 +1,49 @@
+server:
+  port: 10000
+  address: 0.0.0.0
+  servlet:
+    session:
+      tracking-modes: cookie
+      timeout: 30m
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://43.203.229.58:3306/haetssal_jangteo?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: haetssal_jangteo
+    password: 1234
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 10MB
+      max-file-size: 5MB
+      max-request-size: 15MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sokkomann
+    password: ozkz ohti ntzv vono
+    properties:
+      mail:
+        smtp:
+          auth: true
+          staarttls:
+            enable: true
+#            auth, 사용자 인증(username, password 확인)
+#            start tls(Transport Layer Security), 메일 내용이 네트워크상에서 암호화되어 전송
+#auth: 반드시 true
+#starttls 는 너 인터넷에서 데이터전송할거야? 그럼 이 보안관련 프로토콜 따라
+#		이메일가져와서 어쩌고저쩌고...하는 프로토콜
+#true 로 하면 저 프로토콜 따라서 암호화 어쩌고저쩌고...
+#auth 는 사용자인증(username, password 확인)
+#starttls 는(transport layer security)
+#지금은 메일내용이 네트워크상에서 암호화되어 전송하는 규칙/약속 = tls
+#=>보안장치
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: com.app.haetssal_jangteo.domain; com.app.haetssal_jangteo.dto;
+  type-handlers-package: com.app.haetssal_jangteo.mybatis.handler
