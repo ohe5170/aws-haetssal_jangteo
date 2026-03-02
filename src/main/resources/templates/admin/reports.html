@@ -369,35 +369,8 @@
             e.stopPropagation();
         });
 
-        const reportTargetWrapper = document.getElementById('reportTargetSelectWrapper');
-        const reportTargetOption = document.getElementById('reportTargetSelectOption');
-        const reportTargetValueEl = document.getElementById('reportTargetValue');
-        let selectedReportTarget = '';
-
-        reportTargetWrapper?.addEventListener('click', (e) => {
-            reportTargetOption.classList.toggle('off');
-            e.stopPropagation();
-        });
-
-        document.querySelectorAll('#reportTargetSelectOption .SelectBody-OptionValue').forEach(opt => {
-            opt.addEventListener('click', (e) => {
-                selectedReportTarget = opt.dataset.value;
-                reportTargetValueEl.textContent = opt.textContent.trim();
-                reportTargetOption.classList.add('off');
-                e.stopPropagation();
-            });
-        });
-
-        document.getElementById('reportTargetAllBtn')?.addEventListener('click', (e) => {
-            selectedReportTarget = '';
-            reportTargetValueEl.textContent = '전체';
-            reportTargetOption.classList.add('off');
-            e.stopPropagation();
-        });
-
         document.addEventListener('click', () => {
             reportTypeOption?.classList.add('off');
-            reportTargetOption?.classList.add('off');
         });
     </script>
 </body>

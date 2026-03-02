@@ -4,7 +4,7 @@
 const reportTypeToLabel = {
     ITEM: '상품',
     USER: '회원',
-    MARKET: '마켓',
+    MARKET: '장터',
     SELLER: '판매자'
 };
 
@@ -42,42 +42,10 @@ function initReportTypeDropdown() {
     });
 }
 
-// ===== 신고 대상 유형 드롭다운 =====
-const reportTargetWrapper = document.getElementById('reportTargetSelectWrapper');
-const reportTargetOption = document.getElementById('reportTargetSelectOption');
-const reportTargetValueEl = document.getElementById('reportTargetValue');
-let selectedReportTarget = '';
-
-function initReportTargetDropdown() {
-    if (!reportTargetWrapper || !reportTargetOption || !reportTargetValueEl) return;
-
-    reportTargetWrapper.addEventListener('click', (e) => {
-        reportTargetOption.classList.toggle('off');
-        e.stopPropagation();
-    });
-
-    document.querySelectorAll('#reportTargetSelectOption .SelectBody-OptionValue').forEach(opt => {
-        opt.addEventListener('click', (e) => {
-            selectedReportTarget = opt.dataset.value;
-            reportTargetValueEl.textContent = opt.textContent.trim();
-            reportTargetOption.classList.add('off');
-            e.stopPropagation();
-        });
-    });
-
-    document.getElementById('reportTargetAllBtn')?.addEventListener('click', (e) => {
-        selectedReportTarget = '';
-        reportTargetValueEl.textContent = '전체';
-        reportTargetOption.classList.add('off');
-        e.stopPropagation();
-    });
-}
-
 // 드롭다운 외부 클릭 시 닫기
 function initReportDropdownCloseOnOutsideClick() {
     document.addEventListener('click', () => {
         reportTypeOption?.classList.add('off');
-        reportTargetOption?.classList.add('off');
     });
 }
 
@@ -148,7 +116,7 @@ function loadReportData(row) {
     const reportTypeToLabel = {
         ITEM: '상품',
         USER: '회원',
-        MARKET: '마켓',
+        MARKET: '장터',
         SELLER: '판매자'
     };
 
@@ -182,7 +150,6 @@ if (reportModal) {
 // 초기화 함수
 function initReportPageEvents() {
     initReportTypeDropdown();
-    initReportTargetDropdown();
     initReportDropdownCloseOnOutsideClick();
 }
 
