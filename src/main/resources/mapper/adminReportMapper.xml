@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.haetssal_jangteo.mapper.AdminReportMapper">
 
+    <resultMap id="reportResultMap" type="ReportDTO">
+        <id property="id" column="id"/>
+        <result property="reportType" column="report_type" typeHandler="com.app.haetssal_jangteo.mybatis.handler.ReportTypeHandler"/>
+        <result property="reportReporterId" column="report_reporter_id"/>
+        <result property="createdDatetime" column="created_datetime"/>
+        <result property="reporterName" column="user_name"/>
+        <result property="reporterEmail" column="user_email"/>
+    </resultMap>
+
     <sql id="search">
         <trim prefix="(" prefixOverrides="and" suffix=")">
             <if test="search.keyword != null and search.keyword != ''">
@@ -14,7 +23,7 @@
     </sql>
 
 
-    <select id="selectAll" resultType="ReportDTO">
+    <select id="selectAll" resultMap="reportResultMap">
         select r.id, r.report_type, r.report_reporter_id,
                r.created_datetime,
                u.user_name, u.user_email
@@ -71,9 +80,10 @@
     <select id="selectSellerReportById" resultType="ReportSellerDTO">
         select rs.report_id, rs.seller_id,
                rs.report_state,
-               s.seller_name, s.seller_email
+               u.user_name as seller_name, u.user_email as seller_email
         from tbl_report_seller rs
         left join tbl_seller s on rs.seller_id = s.id
+        left join tbl_user u on s.id = u.id
         where rs.report_id = #{reportId}
     </select>
 
@@ -82,5 +92,24 @@
         set report_type = #{state}
         where id = #{reportId}
     </update>
+
+    <select id="selectMarketReports" resultType="ReportMarketDTO">
+        select rm.report_id, rm.market_id, rm.report_state,
+               m.market_name, m.market_region
+        from tbl_report_market rm
+        left join tbl_market m on rm.market_id = m.id
+        order by rm.report_id desc
+        limit 3
+    </select>
+
+    <select id="selectSellerReports" resultType="ReportSellerDTO">
+        select rs.report_id, rs.seller_id, rs.report_state,
+               u.user_name as seller_name, u.user_email as seller_email
+        from tbl_report_seller rs
+        left join tbl_seller s on rs.seller_id = s.id
+        left join tbl_user u on s.id = u.id
+        order by rs.report_id desc
+        limit 2
+    </select>
 
 </mapper>

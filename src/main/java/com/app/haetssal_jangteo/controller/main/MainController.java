@@ -6,20 +6,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/main")
 @RequiredArgsConstructor
 public class MainController {
     private final MainService mainService;
 
-    @GetMapping("/header")
+    @GetMapping("/main/header")
     public String header() {
         return "main/header";
     }
 
-    @GetMapping({"/home"})
+    @GetMapping({"/main/home", "/"})
     public String home(Model model) {
         HomeWithPagingDTO homeWithPagingDTO = mainService.getHomeData();
         model.addAttribute("items", homeWithPagingDTO.getItems());
@@ -28,5 +27,12 @@ public class MainController {
         model.addAttribute("categoryItems", mainService.getCategoryItems(6));
         model.addAttribute("categoryItems2", mainService.getCategoryItems2(6));
         return "main/home";
+    }
+
+    @GetMapping("/items")
+    public String items(@RequestParam(required = false) String region,
+                       @RequestParam(required = false) String category,
+                       Model model) {
+        return "error-page";
     }
 }

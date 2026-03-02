@@ -24,8 +24,8 @@ const storeLayout = (() => {
                 <div class="MainContent-ItemList store-row"
                      data-id="${store.id}"
                      data-name="${store.storeName || ''}"
-                     data-region="${store.storeRegion || ''}"
-                     data-location="${store.storeLocation || ''}"
+                     data-region="${store.storeCategoryName || ''}"
+                     data-location="${store.storeAddress || ''}"
                      data-state="${stateVal}"
                      data-created="${store.createdDatetime || ''}"
                      data-updated="${store.updatedDatetime || ''}">
@@ -41,11 +41,11 @@ const storeLayout = (() => {
                             </div>
                             <div class="MainInfoList-Wrapper">
                                 <p class="MainInfoList-Field">위치</p>
-                                <p class="MainInfoList-Value">${store.storeLocation || '-'}</p>
+                                <p class="MainInfoList-Value">${store.storeAddress || '-'}</p>
                             </div>
                             <div class="MainInfoList-Wrapper">
                                 <p class="MainInfoList-Field">지역</p>
-                                <p class="MainInfoList-Value">${store.storeRegion || '-'}</p>
+                                <p class="MainInfoList-Value">${store.storeCategoryName || '-'}</p>
                             </div>
                             <div class="MainInfoList-Wrapper">
                                 <p class="MainInfoList-Field">상태</p>

@@ -36,17 +36,25 @@ public class AdminAPIController {
         return adminService.findCategories();
     }
 
-    @GetMapping("stores/{page}")
+    @GetMapping("stores/list/{page}")
     public StoreWithPagingDTO getStores(@PathVariable int page, Search search) {
         log.info("관리자 상점 목록 조회 - 페이지: {}, 검색조건: {}", page, search);
         return adminService.storeList(page, search);
     }
 
+    @GetMapping("stores/{id}")
+    public StoreDTO getStore(@PathVariable Long id) {
+        log.info("가게 단건 조회 - ID: {}", id);
+        return adminService.getStore(id);
+    }
+
     @PutMapping("stores/{id}")
-    public void updateStore(@PathVariable Long id, @RequestBody StoreDTO storeDTO) {
+    public StoreDTO updateStore(@PathVariable Long id, @RequestBody StoreDTO storeDTO) {
         log.info("상점 수정 - ID: {}, 상점정보: {}", id, storeDTO);
         storeDTO.setId(id);
         adminService.updateStore(storeDTO);
+        log.info("상점 수정 완료 - ID: {}", id);
+        return adminService.getStore(id);
     }
 
     @GetMapping("stores/regions")

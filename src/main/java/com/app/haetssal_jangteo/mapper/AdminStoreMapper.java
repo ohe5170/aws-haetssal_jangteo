@@ -24,6 +24,9 @@ public interface AdminStoreMapper {
     //    지역 목록 조회 (distinct)
     public List<String> selectDistinctRegions();
 
+    //    단건 조회
+    StoreDTO selectById(@Param("id") Long id);
+
     //    수정
     void update(StoreDTO StoreDTO);
 }

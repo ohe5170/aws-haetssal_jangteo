@@ -2,7 +2,7 @@ const reportLayout = (() => {
     const reportTypeToLabel = {
         ITEM: '상품',
         USER: '회원',
-        MARKET: '마켓',
+        MARKET: '장터',
         SELLER: '판매자'
     };
 

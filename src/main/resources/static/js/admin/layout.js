@@ -75,7 +75,7 @@ function closeModal(modalName) {
 
 // 모달 닫기 버튼 등록
 function initModalClose() {
-    const modals = ['user-edit', 'market-edit', 'item-edit', 'report-edit'];
+    const modals = ['user-edit', 'store-edit', 'item-edit', 'report-edit'];
     modals.forEach(modalName => {
         const modal = document.querySelector(`[name="${modalName}"]`);
         if (!modal) return;
@@ -95,7 +95,7 @@ function initModalClose() {
 
 // 수정 모달 내 input 활성화/비활성화 토글
 function initEditModalToggle() {
-    const modals = ['user-edit', 'market-edit', 'item-edit'];
+    const modals = ['user-edit', 'store-edit', 'item-edit'];
     modals.forEach(modalName => {
         const modal = document.querySelector(`[name="${modalName}"]`);
         if (!modal) return;

@@ -36,9 +36,13 @@ public class AdminController {
         StoreWithPagingDTO storeWithPagingDTO = adminService.storeList(page, search);
         model.addAttribute("storeWithPagingDTO", storeWithPagingDTO);
         model.addAttribute("search", search);
-        model.addAttribute("regions", adminService.findStoreRegions());
+        // 고정된 지역 목록
+        model.addAttribute("regions", java.util.Arrays.asList(
+            "서울", "경기", "인천", "강원", "충북", "충남", "대전",
+            "경북", "경남", "부산", "울산", "대구", "전북", "전남", "광주"
+        ));
         return "admin/stores";
-        
+
     }
 
     @GetMapping("/users")
@@ -54,6 +58,8 @@ public class AdminController {
         ReportWithPagingDTO reportWithPagingDTO = adminService.reportList(page, search);
         model.addAttribute("reportWithPagingDTO", reportWithPagingDTO);
         model.addAttribute("search", search);
+        model.addAttribute("marketReports", adminService.getMarketReports());
+        model.addAttribute("sellerReports", adminService.getSellerReports());
         return "admin/reports";
     }
 

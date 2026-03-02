@@ -4,13 +4,13 @@
     <sql id="search">
         <trim prefix="(" prefixOverrides="and" suffix=")">
             <if test="search.keyword != null and search.keyword != ''">
-                and store_name like concat('%', #{search.keyword}, '%')
+                and s.store_name like concat('%', #{search.keyword}, '%')
             </if>
             <if test="search.storeRegion != null and search.storeRegion != ''">
-                and store_address = #{search.storeRegion}
+                and s.store_address = #{search.storeRegion}
             </if>
             <if test="search.storeState != null and search.storeState != ''">
-                and store_state = #{search.storeState}
+                and s.store_state = #{search.storeState}
             </if>
         </trim>
     </sql>
@@ -23,21 +23,23 @@
         order by id desc
     </select>
 
-    <select id="selectAll">
-        select id, store_market_id, store_owner_id, store_name,
-               store_intro, store_address, store_score, store_state, store_is_confirmed,
-               created_datetime, updated_datetime
-        from tbl_store
+    <select id="selectAll" resultType="storeDTO">
+        select s.id, s.store_market_id, s.store_owner_id, s.store_category_id, s.store_name,
+               s.store_intro, s.store_address, s.store_score, s.store_state, s.store_is_confirmed,
+               s.created_datetime, s.updated_datetime,
+               c.category_name as storeCategoryName
+        from tbl_store s
+        left join tbl_category c on s.store_category_id = c.id
         <where>
             <include refid="search"/>
         </where>
-        order by id desc
+        order by s.id desc
         limit #{criteria.count} offset #{criteria.offset}
     </select>
 
     <select id="selectTotal">
         select count(*)
-        from tbl_store
+        from tbl_store s
         <where>
             <include refid="search"/>
         </where>
@@ -50,12 +52,21 @@
         order by store_address
     </select>
 
+    <select id="selectById" resultType="storeDTO">
+        select s.id, s.store_market_id, s.store_owner_id, s.store_category_id, s.store_name,
+               s.store_intro, s.store_address, s.store_score, s.store_state, s.store_is_confirmed,
+               s.created_datetime, s.updated_datetime,
+               c.category_name as storeCategoryName
+        from tbl_store s
+        left join tbl_category c on s.store_category_id = c.id
+        where s.id = #{id}
+    </select>
+
     <update id="update">
         update tbl_store
         set store_name = #{storeName},
             store_address = #{storeAddress},
-            store_intro = #{storeIntro},
-            store_state = #{storeState},
+            store_state = #{storeState, typeHandler=com.app.haetssal_jangteo.mybatis.handler.StoreStateHandler},
             updated_datetime = current_timestamp
         where id = #{id}
     </update>

@@ -47,7 +47,16 @@ const userService = (() => {
             body: JSON.stringify(userData)
         });
 
-        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // 204 No Content 응답이면 빈 객체 반환
+        const contentType = response.headers.get("content-type");
+        let result = {};
+        if (contentType && contentType.includes("application/json")) {
+            result = await response.json();
+        }
 
         if (callback) {
             return callback(result);

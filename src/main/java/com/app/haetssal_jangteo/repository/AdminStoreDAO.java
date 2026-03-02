@@ -35,6 +35,11 @@ public class AdminStoreDAO {
         return adminStoreMapper.selectDistinctRegions();
     }
 
+    //    단건 조회
+    public StoreDTO findById(Long id) {
+        return adminStoreMapper.selectById(id);
+    }
+
     //    수정
     public void setStore(StoreDTO storeDTO) {
         adminStoreMapper.update(storeDTO);

@@ -11,7 +11,7 @@ const storeService = (() => {
         queryString += `&region=${encodeURIComponent(region)}`;
         queryString += `&state=${encodeURIComponent(state)}`;
 
-        const response = await fetch(`/api/admin/stores/${page}${queryString}`);
+        const response = await fetch(`/api/admin/stores/list/${page}${queryString}`);
         const storeWithPaging = await response.json();
 
         if (callback) {

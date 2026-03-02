@@ -2,6 +2,7 @@
 -- 기존 상품이 있다면 모두 ACTIVE 상태로 변경
 UPDATE tbl_item SET item_state = 'ACTIVE' WHERE item_state IS NULL;
 
+
 -- 추가 테스트 상품 데이터 (상점 ID와 카테고리 ID는 실제 데이터에 맞게 조정)
 INSERT INTO tbl_item (item_store_id, item_category_id, item_name, item_price, item_stock, item_delivery_fee, item_content, item_view_count, item_state)
 SELECT

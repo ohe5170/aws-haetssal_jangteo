@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum ReportType {
-    MARKET("market"), SELLER("seller"), REPORT("report");
+    MARKET("market"), SELLER("seller"), ITEM("item"), USER("user");
 
     private String value;
 

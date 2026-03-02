@@ -80,7 +80,7 @@
             f.file_origin_name as fileOriginName,
             f.file_saved_path as fileSavePath
         from tbl_store s
-        join tbl_category c on s.store_category_id = c.id
+        left join tbl_category c on s.store_category_id = c.id
         left join tbl_file_store fs on s.id = fs.store_id
         left join tbl_file f on f.id = fs.id
         <where>

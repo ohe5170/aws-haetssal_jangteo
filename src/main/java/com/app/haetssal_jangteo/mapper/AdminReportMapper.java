@@ -30,4 +30,10 @@ public interface AdminReportMapper {
 
     // 신고 상태 업데이트
     void updateReportState(@Param("reportId") Long reportId, @Param("state") String state);
+
+    // 장터 신고 목록 조회 (최근 3개)
+    List<ReportMarketDTO> selectMarketReports();
+
+    // 판매자 신고 목록 조회 (최근 2개)
+    List<ReportSellerDTO> selectSellerReports();
 }

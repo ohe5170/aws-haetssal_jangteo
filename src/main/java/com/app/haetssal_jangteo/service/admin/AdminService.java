@@ -122,6 +122,11 @@ public class AdminService {
         return storeWithPagingDTO;
     }
 
+    // 가게 단건 조회
+    public StoreDTO getStore(Long id) {
+        return adminStoreDAO.findById(id);
+    }
+
     // 가게 수정
     public void updateStore(StoreDTO storeDTO) {
         adminStoreDAO.setStore(storeDTO);
@@ -180,6 +185,16 @@ public class AdminService {
     // 신고 상태 수정
     public void updateReportState(Long id, String state) {
         adminReportDAO.updateReportState(id, state);
+    }
+
+    // 장터 신고 목록 조회
+    public List<ReportMarketDTO> getMarketReports() {
+        return adminReportDAO.findMarketReports();
+    }
+
+    // 판매자 신고 목록 조회
+    public List<ReportSellerDTO> getSellerReports() {
+        return adminReportDAO.findSellerReports();
     }
 
     // 오늘자 경로 생성

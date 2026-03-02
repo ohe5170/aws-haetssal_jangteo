@@ -119,12 +119,15 @@ firstRegionItems.forEach((item) => {
         // 사용자가 선택한 요소내용 담기
         const inputBox = regionBoxes[0].querySelector("input[type='text']");
         const hiddenInput = document.querySelector("input[name='storeAddress']");
+        const secondRegionInput = document.querySelector("input[name='store-detail-address']");
         const text = item.textContent;
         inputBox.value = text;
 
         // 서버로 보낼 진짜 input에 값 적용
         if(hiddenInput) {
-            hiddenInput.value = text;
+            // 시/군/구 값이 있으면 함께 저장, 없으면 시/도만 저장
+            const secondValue = secondRegionInput ? secondRegionInput.value : '';
+            hiddenInput.value = secondValue ? `${text} ${secondValue}` : text;
         }
 
         // 박스닫아야하니까 clicked 떼고
@@ -148,14 +151,22 @@ firstRegionItems.forEach((item) => {
 const secondRegionInput = document.querySelector("input[name='store-detail-address']");
 if(secondRegionInput) {
     secondRegionInput.addEventListener("input", (e) => {
-        const firstRegionValue = regionBoxes[0].querySelector("input[type='text']").value;
+        const firstRegionInputValue = regionBoxes[0].querySelector("input[type='text']").value;
         const secondRegionValue = e.target.value;
         const hiddenInput = document.querySelector("input[name='storeAddress']");
 
-        // 모든 값이 있으면 해당 값으로 적용
-        if(hiddenInput && firstRegionValue && secondRegionValue) {
-            // "시/도 시/군/구" 형태로 저장
-            hiddenInput.value = `${firstRegionValue} ${secondRegionValue}`;
+        if(hiddenInput) {
+            // 첫번째 지역이 선택되었고 "선택해주세요" 같은 기본값이 아닌 경우
+            if(firstRegionInputValue && firstRegionInputValue !== "시/도를 선택해주세요") {
+                // "시/도 시/군/구" 형태로 저장
+                hiddenInput.value = secondRegionValue ? `${firstRegionInputValue} ${secondRegionValue}` : firstRegionInputValue;
+            } else if(secondRegionValue) {
+                // 시/도를 선택하지 않았지만 시/군/구만 입력한 경우
+                hiddenInput.value = secondRegionValue;
+            } else {
+                // 둘 다 없으면 빈 값
+                hiddenInput.value = '';
+            }
         }
 
         // 값이 입력되면 selected 클래스 추가
@@ -315,7 +326,9 @@ finalRegiBtn.addEventListener("click", (e) => {
     const isStoreNameValid = marketInputs[0] && marketInputs[0].value.trim() !== '';
     const isStoreIntroValid = marketInputs[1] && marketInputs[1].value.length >= 10;
     const isImageUploaded = thumbnail && thumbnail.style.backgroundImage !== '';
-    const isRegionSelected = regionSpans[1] && regionSpans[1].classList.contains("selected");
+    // 지역: 시/도가 선택되었거나 시/군/구가 입력되었으면 통과
+    const hiddenAddressInput = document.querySelector("input[name='storeAddress']");
+    const isRegionSelected = hiddenAddressInput && hiddenAddressInput.value.trim() !== '';
     const isCategorySelected = categoryBox.firstElementChild && categoryBox.firstElementChild.classList.contains("selected");
     const isMarketSelected = document.getElementById("storeMarketId") &&
         document.getElementById("storeMarketId").value !== '';

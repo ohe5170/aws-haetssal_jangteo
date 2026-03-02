@@ -31,7 +31,8 @@ const userLayout = (() => {
                      data-type="${userTypeVal}"
                      data-state="${userStateVal}"
                      data-created="${user.createdDatetime || ''}"
-                     data-updated="${user.updatedDatetime || ''}">
+                     data-updated="${user.updatedDatetime || ''}"
+                     data-latest-login="${user.userLatestLogin || ''}">
                     <div class="ItemList-MainRightInfo">
                         <div class="ItemList-MainInfoList">
                             <div class="MainInfoList-Wrapper">
